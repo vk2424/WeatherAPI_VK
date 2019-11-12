@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listner_Test" doc:name="HTTP Listener config" doc:id="2f9e280f-e224-4943-9ce1-4895b395473f" >
+		<http:listener-connection host="localhost" port="8080" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configTest" doc:name="HTTP Request configuration" doc:id="628f7f86-0aa2-42e5-a67a-50e0c2d55fae" >
+		<http:request-connection host="api.openweathermap.org" />
+	</http:request-config>
+	<flow name="TestWeatherAPIFlow" doc:id="f910fcb4-72ce-4055-a6ec-b4d80fbe5e4c" >
+		<http:listener doc:name="Listener" doc:id="dde22128-1d3a-49f8-aeb9-f07998cc3ebe" config-ref="HTTP_Listner_Test" path="/testAPI"/>
+		<http:request method="GET" doc:name="Request" doc:id="04788fd0-2313-4e45-be03-44da79fd69fd" config-ref="HTTP_Request_configTest" path="/data/2.5/weather">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"appid" : "4ac06b5d42309722c0a790648f95460f",
+	"q" : "London"
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+</mule>
